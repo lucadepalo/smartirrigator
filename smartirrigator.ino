@@ -48,9 +48,8 @@ String ricevuto;
 int status;
 // if you don't want to use DNS (and reduce your sketch size)
 // use the numeric IP instead of the name for the server:
-//IPAddress server(192,168,87,43);  // numeric IP for Google (no DNS)
-char server[] = "personalgarden.000webhostapp.com";
-//char server[] = "lucadepalo.dynamic-dns.net";    // name address for Google (using DNS)
+//IPAddress server(192,168,000,000);  // numeric IP for Google (no DNS)
+char server[] = "personalgarden.000webhostapp.com"; // name address for Google (using DNS)
 
 // Initialize the Ethernet client library
 // with the IP address and port of the server
@@ -62,13 +61,6 @@ void setup()
    status = WL_IDLE_STATUS;
   //Initialize serial and wait for port to open:
   Serial.begin(9600);
-
-
-  /*
-  while (!Serial) {
-    ; // wait for serial port to connect. Needed for native USB port only
-  }
-  */
   
   pinMode(8, OUTPUT);
   pinMode(13, OUTPUT);
@@ -126,21 +118,12 @@ void setup()
     client.println();
   }
 
-  //wdt_init ( WDT_CONFIG_PER_16K ); //inizializzo il watchdog per 16 secondi
 } //fine SETUP
 
 void loop() {
 
-    //wdt_reset();  
-
-    
   // if ten seconds have passed since your last connection,
   // then connect again and send data:
-  
-
-  
-
-  //wdt_reset();
 
   httpRequest_AIRR();
   
@@ -173,10 +156,7 @@ void httpRequest_AIRR() {
     client.println();
     client.println(postData);
     client.println("User-Agent: ArduinoWiFi/1.1");
-    
-
-    //wdt_reset();  
-    
+        
     // note the time that the connection was made:
     lastConnectionTime_AIRR = millis();
     delay(1000);
@@ -188,14 +168,6 @@ void httpRequest_AIRR() {
         ricevuto += c; // accumulate in the 'ricevuto' string what you receive from the server
       }
     }
-
-    /*
-    // Check if the response is valid:
-    if (ricevuto.indexOf("valore:") == -1) {
-      Serial.println("Invalid response from server");
-      return;
-    }
-    */
 
     Serial.println("Server Response: " + ricevuto);
 
@@ -242,7 +214,6 @@ void httpRequest_SUT() {
     somma = somma + analogRead(A0);
     delay(1000);
   }
-  //wdt_reset();  
   int sensorValue = round(somma/numeroMisure); //arrotondo per difetto
   Serial.println();
   Serial.println(String(sensorValue));
